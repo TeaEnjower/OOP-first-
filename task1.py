@@ -1,4 +1,5 @@
 class Student:
+
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -17,7 +18,7 @@ class Student:
         else:
             return 'Ошибка'
         
-    def studentAverageRating(self):
+    def student_average_rating(self):
         total_grades = 0
         count = 0
 
@@ -26,12 +27,16 @@ class Student:
             count += len(grades)
 
         return round(total_grades / count, 1) if count > 0 else 0
+
+    def __eq__(self, other):
+        return self.student_average_rating() == other.student_average_rating()
         
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.studentAverageRating()}\nКурсы в процессе изучения: {self.finished_courses}\nЗавершённые курсы: {self.finished_courses}'
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.student_average_rating()}\nКурсы в процессе изучения: {self.finished_courses}\nЗавершённые курсы: {self.finished_courses}'
         
 
 class Mentor:
+
     def __init__(self, name, surname, courses_attached=None):
         if courses_attached is None:
             courses_attached = []
@@ -55,13 +60,14 @@ class Mentor:
         return f'Имя: {self.name}\nФамилия: {self.surname}'
 
 class Lecturer(Mentor):
+
     def __init__(self, name, surname, courses_attached=None):
         super().__init__(name, surname, courses_attached)
         if courses_attached is None:
             courses_attached = {}
         self.grades = {}
 
-    def lecturerAverageRating(self):
+    def Lecturer_average_rating(self):
         total_grades = 0
         count = 0
 
@@ -70,12 +76,16 @@ class Lecturer(Mentor):
             count += len(grades)
 
         return round(total_grades / count, 1) if count > 0 else 0
+
+    def __eq__(self, other):
+        return self.Lecturer_average_rating == other.Lecturer_average_rating
     
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.lecturerAverageRating()}'
+        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.Lecturer_average_rating()}'
 
 
 class Reviewer(Mentor):
+
     def __init__(self, name, surname, courses_attached=None):
         super().__init__(name, surname, courses_attached)
     
@@ -87,8 +97,6 @@ class Reviewer(Mentor):
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
-
-
 
 lector_John = Lecturer("John", "Nort", ["Python", "C++", "Java"]) 
 
@@ -125,10 +133,12 @@ amazing_mentor.rate_hw(student_Cole, 'Python', 10)
 amazing_mentor.rate_hw(student_Cole, 'Java', 10)
 amazing_mentor.rate_hw(student_Cole, 'Probability Theory', 7)
 
-print(lector_John)
-print(student_Jane)
-print(student_Cole)
-print(cool_mentor)
+print(lector_John, end="\n\n")
+print(student_Jane, end="\n\n")
+print(student_Cole, end="\n\n")
+print(cool_mentor, end="\n\n")
+print(student_Cole.__eq__(student_Jane))
+print(lector_John.__eq__(lector_Roman), end="\n\n")
 
 def Students_course(students_list, course):
     total_grades = 0
@@ -151,7 +161,6 @@ def Lecturers_course(lecturers_list, course):
             count += len(lecturers.grades[course])
 
     return round(total_grades / count, 1) if count > 0 else 0
-
 
 print(Students_course([student_Cole, student_Jane], "Java"))
 print(Lecturers_course([lector_John, lector_Roman], "Java"))
